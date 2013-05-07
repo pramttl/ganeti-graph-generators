@@ -1,0 +1,8 @@
+[Under-Development]
+
+(Short Term Objectives)
+- To extract useful graph information from Ganeti Cluster JSON configuration file. (raw)
+- To extract useful graph information via a RAPI client.
+
+(Long Term Objective)
+To render the graph visually in different styles.
