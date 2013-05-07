@@ -6,3 +6,10 @@
 
 (Long Term Objective)
 To render the graph visually in different styles.
+
+Utility Files:
+> extract_info.py
+  Used to extract instance_name, primary_node, secondary_node information from a Ganeti raw configuration JSON file.
+
+> nxgraphview.py
+  Used to visualize the Instance-Primary_Node relations in the Ganeti Cluster Graph using networkx and matplotlib.
