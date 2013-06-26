@@ -12,6 +12,9 @@ nodedict = {}
 # The dictionary is a Directed Graph.
 psdict = {}
 
+import pickle
+OBJECT_STORAGE_FILE = 'pickled_objects.txt'
+
 while True:
     s = raw_input()
     if s == '':
@@ -41,18 +44,24 @@ while True:
             psdict[l[1]] = {l[2]: 1}
 
 
+# Pickling the nodedict,psdict object for the current user and storing it in a file.
+f = open(OBJECT_STORAGE_FILE, 'w') 
+pickle.dump(nodedict, f)
+pickle.dump(psdict, f)
+f.close()
+
 from pprint import pprint as pp
 #pp(nodedict)
 #pp(psdict)
 #print
 
-
+'''
 # To print the nodes
 for node in sorted(nodedict.keys()):
     s = '"%s":{color:CLR.ganetinode, shape:"dot", alpha:1},'%(node,)
     print s
     for instance in nodedict[node]:
-        s = '"%s":{color:CLR.ganetivm, alpha:1},'%(instance,)
+        s = '"%s":{color:CLR.ganetivm, alpha:0},'%(instance,)
         print s
     print
 
@@ -73,4 +82,43 @@ for node in sorted(nodedict.keys()):
         s = '\t\t"%s":{length:15, width:%d},'%(snode,slinkweight)
         print s
     print '\t},'
+'''
 
+############################ Handy Functions ##############################
+
+def js_nodes_obj(nodedict):
+    '''
+    Takes in a "nodedict" and converts it into a Javascript Nodes object.
+    '''
+    s = '{\n'
+    for node in sorted(nodedict.keys()):
+        s += '"%s":{color:CLR.ganetinode, shape:"dot", alpha:1},\n'%(node,)
+        for instance in nodedict[node]:
+            s += '"%s":{color:CLR.ganetivm, alpha:0},\n'%(instance,)
+        s += '}\n'
+    return s
+
+
+def js_edges_obj(nodedict,psdict):
+    '''
+    Takes in "nodedict" and "psdict" dictionaries and uses it to 
+    generate a string representation of the Javascript EDGE object.
+    '''
+    s = '{\n'
+    for node in sorted(nodedict.keys()):
+        s += '\t"%s":{\n'%(node,)
+
+        #Edges to Instances.
+        for instance in nodedict[node]:
+            s += '\t\t"%s":{length:6},\n'%(instance,)
+        #Edges to Secondary Nodes.
+        for snode,slinkweight in psdict[node].items():
+            if snode:
+                s += '\t\t"%s":{length:15, width:%d},\n'%(snode,slinkweight)
+        s+='\t},\n'
+    s+='}'
+    return s
+
+
+s = js_edges_obj(nodedict,psdict)
+print s

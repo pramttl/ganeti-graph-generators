@@ -1,5 +1,5 @@
 # Using networkx and matplotlib to visualize Ganeti Cluster Configuration.
-# Usage: ./nxviewgraph < test_graph.txt
+# Usage: ./nxviewgraph < graph_file.txt
 
 '''
 Requirements: networkx, matplotlib
