@@ -57,31 +57,38 @@ from pprint import pprint as pp
 
 
 # To print the nodes
+i = 0
 for node in sorted(nodedict.keys()):
-    s = "{ data: { id: '%s', name: '%s', weight: 100, faveColor: '#6FB1FC', faveShape: 'ellipse' } },"%(node,node,)
+    s = "{ data: { id: '%s', name: '%s', weight: 100,},"\
+        "\n\tposition: pp[%d], classes:'ganeti-node' },"%(node,node,i)
     print s
+
+    node_slug = node.split(".")[0]
     for instance in nodedict[node]:
-        s = "{ data: { id: '%s', name: '%s', weight: 100, faveColor: '#6FB1FC', faveShape: 'rectangle' } },"%(instance,instance,)
+        s = "{ data: { id: '%s', name: '%s', weight: 0.05,}," \
+            "\n\tposition: rndisc(pp[%d],27,31)," \
+            " classes:'ganeti-instance child-%s' },"%(instance,instance,i,node_slug)
         print s
     print
+    i += 1
 
 '''
 print "EDGES"
 print "--------------------------------------------------------"
 # To print the edges.
 for node in sorted(nodedict.keys()):
-    s = '\t"%s":{'%(node,)
-    print s
     #Edges to Instances.
     for instance in nodedict[node]:
-        s = '\t\t"%s":{length:6},'%(instance,)
+        s = "{ data: { source: '%s', target: '%s', faveColor: '#6FFCB1', strength:1 }, classes:'instance-edge'},"%(node,instance)
         print s
 
-    #Edges to Secondary Nodes.
-    for snode,slinkweight in psdict[node].items():
-        s = '\t\t"%s":{length:15, width:%d},'%(snode,slinkweight)
-        print s
-    print '\t},'
+    ##Edges to Secondary Nodes.
+    #for snode,slinkweight in psdict[node].items():
+    #    s = '\t\t"%s":{length:15, width:%d},'%(snode,slinkweight)
+    #    s = "{ data: { source: '%s', target: '%s', faveColor: '#6FB1FC', strength: %d }, classes:'snode-edge' },"%(node,snode,slinkweight)
+    #    print s
+    #print '\t},'
+
 
 ############################ Handy Functions ##############################
 
