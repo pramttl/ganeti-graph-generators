@@ -67,7 +67,7 @@ for node in sorted(nodedict.keys()):
     for instance in nodedict[node]:
         s = "{ data: { id: '%s', name: '%s', weight: 0.05,}," \
             "\n\tposition: rndisc(pp[%d],27,31)," \
-            " classes:'ganeti-instance child-%s' },"%(instance,instance,i,node_slug)
+            " classes:'ganeti-instance' },"%(instance,instance,i)
         print s
     print
     i += 1
