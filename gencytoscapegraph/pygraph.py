@@ -1,5 +1,5 @@
 # 
-# Code to read the raw Ganeti Cluster Graph and print the Graph in a format, required as per the arbor.js standards.
+# Code to read the raw Ganeti Cluster Graph and print the Graph in a format, as required by cytoscape js for rendering.
 # $ python pygraph.py < ../graph_prod.txt
 # Pranjal Mittal
 #
