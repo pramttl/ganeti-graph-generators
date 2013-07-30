@@ -13,13 +13,15 @@ vmdict = {}
 
 import pickle
 OBJECT_STORAGE_FILE = 'pickled_objects.txt'
-from simplejson import dumps
+from json import dumps
 
 while True:
     s = raw_input()
     if s == '':
         break
     l = s.split()
+    if l[2] == "None":
+        l[2] = None
 
     ##Creating the PrimaryNode-Instance relations.
     try:
@@ -65,7 +67,7 @@ def gnodes_json(nodedict):
         gnode_obj["pk"] = i
         gnode_obj["model"] = "ganeti_web.node"
         gnode_obj["fields"] = { "ram_free": 408,
-                              "offline": "false",
+                              "offline": False,
                               "hostname": node_hostname,
                               "ram_total": 496,
                             }
