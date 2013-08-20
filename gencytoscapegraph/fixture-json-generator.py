@@ -11,6 +11,12 @@ nodedict = {}
 vmdict = {}
 
 
+vm_status_possibilities = {'running':0.7, 'ERROR_DOWN': 0.1, 'ADMIN_DOWN':0.2}
+
+# Helps generated random fixture data, albeit with some control. 
+# Based on Weighted Randomized Selection - http://ijsme.org/a-graphical-perspective-to-online-ranking-and-matchmaking/
+from weighted_selection import weighted_pick
+
 import pickle
 OBJECT_STORAGE_FILE = 'pickled_objects.txt'
 from json import dumps
@@ -48,9 +54,13 @@ def vms_json(vmdict):
         vm_obj["pk"] = i
         vm_obj["model"] =  "ganeti_web.virtualmachine"
         vm_obj["fields"] = {
-                            "status": "running",
-                            "secondary_node": snode,
+                            "status": weighted_pick(vm_status_possibilities),
+                            "ram": 128,
                             "hostname": instance,
+                            "secondary_node": snode,
+                            "operating_system": "image+cirros",
+                            "owner": 'Pranjal',
+                            "minram": -1,
                             "primary_node": pnode
                            }
         vms_list.append(vm_obj)  
